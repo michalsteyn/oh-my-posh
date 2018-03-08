@@ -1,0 +1,9 @@
+skip_tags: true
+version: 2.0.{build}
+image: ubuntu
+build_script:
+  - ps: (Get-Content '.\oh-my-posh.psd1' -Raw).Replace('1.0.0.0', $ENV:APPVEYOR_BUILD_VERSION) | Out-File -Encoding 'UTF8' '.\oh-my-posh.psd1'
+before_test:
+  - pwsh: Install-Module -Name Pester -Repository PSGallery -Force -Scope CurrentUser
+test_script:
+  - pwsh: Invoke-Pester
